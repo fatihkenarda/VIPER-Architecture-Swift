@@ -8,17 +8,22 @@
 import SwiftUI
 
 struct ContentView: View {
-    var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
+    @ObservedObject var presenter: UserPresenter
+
+        var body: some View {
+            NavigationView {
+                List(presenter.users) { user in
+                    Text(user.name)
+                }
+                .navigationTitle("Kullanıcı Listesi")
+                .onAppear {
+                    presenter.loadUsers()
+                }
+            }
         }
-        .padding()
-    }
 }
 
 #Preview {
-    ContentView()
+    UserRouter.createModule()
+               .previewDisplayName("VIPER Kullanıcı Listesi")
 }
